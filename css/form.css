@@ -1,0 +1,107 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5fdf6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Container */
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 50px 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Form Header */
+.form-container h2 {
+  margin-bottom: 25px;
+  color: #2e7d32;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Input Fields */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Submit Button */
+form input[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+  background-color: #1b5e20;
+}
+
+/* Footer Text */
+.form-footer {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #444;
+}
+
+.form-footer a {
+  color: #2e7d32;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Page Footer (Sticky) */
+footer {
+  margin-top: auto;
+  padding: 15px;
+  background-color: #2e7d32;
+  color: white;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form-container {
+    margin: 40px 20px;
+    padding: 35px 25px;
+  }
+
+  .form-container h2 {
+    font-size: 24px;
+  }
+
+  form input[type="submit"] {
+    font-size: 16px;
+  }
+}
