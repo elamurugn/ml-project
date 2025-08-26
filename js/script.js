@@ -245,7 +245,7 @@ function handleLogout() {
         showSuccessMessage('Logging out...');
         // In a real application, this would clear session and redirect
         setTimeout(() => {
-            window.location.href = '/login';
+            window.location.href = 'logout.php';
         }, 1000);
     }
 }
@@ -294,4 +294,5 @@ if ('serviceWorker' in navigator) {
             console.log('ServiceWorker registration failed');
         });
     });
+
 }
