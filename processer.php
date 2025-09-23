@@ -3,84 +3,64 @@ session_start();
 require_once 'db_connect.php';
 
 // Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userid'])) {
     header('Location: login.php');
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['userid'];
 
-// Generate CSRF token if not exists
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-// Set agreement start time if not set
-if (!isset($_SESSION['agreement_start_time'])) {
-    $_SESSION['agreement_start_time'] = time();
-}
-
-// Handle form submission
-if ($_POST && isset($_POST['submit_agreement'])) {
-    $response = [];
-    
-    // Verify CSRF token
-    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        $response['error'] = 'Invalid security token. Please refresh the page.';
-    }
-    // Server-side timer validation - check if at least 60 seconds have passed
-    elseif (!isset($_SESSION['agreement_start_time']) || (time() - $_SESSION['agreement_start_time']) < 60) {
-        $response['error'] = 'Please wait for 1 minute and read the terms and conditions.';
-    }
-    // Check if user agreed to terms
-    elseif (!isset($_POST['i_agree']) || $_POST['i_agree'] != 'on') {
-        $response['error'] = 'Please accept the terms and conditions.';
-    }
-    else {
-        // All validations passed - update agree_submit to 1
-        try {
-            $stmt = $pdo->prepare("UPDATE users SET agree_submit = 1 WHERE id = ?");
-            $stmt->execute([$user_id]);
-            
-            // Clear agreement session data
-            unset($_SESSION['agreement_start_time']);
-            unset($_SESSION['csrf_token']);
-            
-            $response['success'] = true;
-            $response['message'] = 'Agreement accepted successfully!';
-            $response['redirect'] = 'ml_prediction.php';
-        } catch (Exception $e) {
-            $response['error'] = 'Database error occurred.';
-        }
-    }
-    
-    // Return JSON response for AJAX
-    if (isset($_POST['ajax'])) {
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
-    }
-    
-    // Handle non-AJAX submission
-    if (isset($response['success'])) {
-        header('Location: ' . $response['redirect']);
-        exit;
-    }
-}
-
-// Check current agree_submit status
+// Verify user has agreed to terms
+// Verify user has agreed to terms
 try {
-    $stmt = $pdo->prepare("SELECT agree_submit FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("SELECT agree_submit FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
     
-    // If user has already agreed, redirect to ML prediction
-    if ($user && $user['agree_submit'] == 1) {
-        header('Location: ml_prediction.php');
+    if (!$user || $user['agree_submit'] != 1) {
+        header('Location: agreement.php');
         exit;
     }
 } catch (Exception $e) {
-    die("Error checking user status: " . $e->getMessage());
+    header('Location: agreement.php');
+    exit;
+}
+
+?>
+
+<?php
+
+$status_msg = "";
+$error_msg = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $soil_code = $_POST['soil_type'] ?? '';
+
+    if (empty($soil_code)) {
+        $error_msg = "Please select a soil type.";
+    } else {
+        // Path to python script (adjust if your structure differs)
+        $py_script = __DIR__ . '/python/tree_soil_type.py';
+
+        // Build safe command
+        $cmd = 'python3 ' . escapeshellarg($py_script) . ' ' . escapeshellarg($soil_code);
+
+        // Execute and capture output and return status
+        $output = null;
+        $return_var = null;
+        exec($cmd . ' 2>&1', $output, $return_var); // capture stderr too
+
+        if ($return_var !== 0) {
+            // something went wrong with python execution
+            $error_msg = "Processing failed. Python returned an error: " . htmlspecialchars(implode("\n", $output));
+        } else {
+            // We intentionally do NOT display the returned tree list.
+            // Show a concise success message instead.
+            $status_msg = "Soil selection (" . htmlspecialchars($soil_code) . ") has been sent for processing.";
+        }
+    }
 }
 ?>
 
@@ -89,185 +69,130 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Prediction Agreement - Tree Oxygen Recovery System</title>
-    <link rel="stylesheet" href="css/agreement.css">
+    <title>Tree Species Selection</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/processor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="agreement-container">
-        <div class="agreement-card">
-            <div class="header">
-                <i class="fas fa-exclamation-triangle warning-icon"></i>
-                <h1>ML Prediction Terms & Agreement</h1>
-            </div>
-            
-            <div class="content">
-                <div class="timer-section">
-                    <div class="timer-display">
-                        <i class="fas fa-clock"></i>
-                        <span id="timer">01:00</span>
-                    </div>
-                    <p class="timer-message">
-                        <strong>⚠️ Please do not leave this page!</strong><br>
-                        Please wait and read the terms carefully before proceeding.
-                    </p>
-                </div>
+    <div class="dashboard-container">
+        <!-- Fixed Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
                 
-                <div class="terms-content">
-                    <h3>Important Disclaimer</h3>
-                    <div class="disclaimer-box">
-                        <p><strong>⚠️ ML Prediction Accuracy Notice:</strong></p>
-                        <p>Our machine learning prediction system has an accuracy rate of <strong>75% to 80%</strong>. 
-                        Please understand that these predictions are estimates and should not be taken as exact values.</p>
-                        
-                        <p><strong>Key Points:</strong></p>
-                        <ul>
-                            <li>Predictions are based on historical data and current environmental factors</li>
-                            <li>Actual oxygen recovery rates may vary due to various environmental conditions</li>
-                            <li>Results should be used as guidance, not absolute certainty</li>
-                            <li>We recommend consulting with environmental experts for critical decisions</li>
-                        </ul>
-                    </div>
-                    
-                    <h3>Terms and Conditions</h3>
-                    <div class="terms-box">
-                        <p>By using this ML prediction system, you acknowledge and agree that:</p>
-                        <ul>
-                            <li>You understand the accuracy limitations of the ML model</li>
-                            <li>You will not rely solely on these predictions for critical environmental decisions</li>
-                            <li>The system provides estimates that may not reflect actual outcomes</li>
-                            <li>You use this tool at your own discretion and responsibility</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <form id="agreementForm" method="POST">
-                    <div class="agreement-section">
-                        <div class="checkbox-container" id="agreeContainer" style="display: none;">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="agreeCheckbox" name="i_agree">
-                                <span class="checkmark"></span>
-                                I have read and agree to the terms and conditions above
-                            </label>
-                        </div>
-                        
-                        <div class="button-section">
-                            <button type="submit" id="submitBtn" name="submit_agreement" class="submit-btn">
-                                <i class="fas fa-check"></i> Submit Agreement
-                            </button>
-                        </div>
-                        
-                        <div id="messageArea" class="message-area"></div>
-                    </div>
-                    
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <input type="hidden" name="ajax" value="true">
-                </form>
             </div>
-        </div>
-    </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.php" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link profile-toggle">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                            <i class="fas fa-chevron-right toggle-icon"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="view_profile.php"><i class="fas fa-eye"></i> View Profile</a></li>
+                            <li><a href="edit_profile.php"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="processer.php" class="nav-link active">
+                            <i class="fas fa-leaf"></i>
+                            <span>O₂ Recovery System</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tree_R_H.php" class="nav-link">
+                            <i class="fas fa-tree"></i>
+                            <span>Tree Recommendation History</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-    <script>
-        let timeLeft = 60; // 1 minute in seconds
-        let timerInterval;
-        let timerCompleted = false;
-        
-        // Timer display element
-        const timerElement = document.getElementById('timer');
-        const agreeContainer = document.getElementById('agreeContainer');
-        const submitBtn = document.getElementById('submitBtn');
-        const messageArea = document.getElementById('messageArea');
-        const agreementForm = document.getElementById('agreementForm');
-        
-        // Start countdown timer
-        function startTimer() {
-            timerInterval = setInterval(function() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                // Format time display
-                timerElement.textContent = 
-                    (minutes < 10 ? '0' : '') + minutes + ':' + 
-                    (seconds < 10 ? '0' : '') + seconds;
-                
-                timeLeft--;
-                
-                // When timer reaches 0
-                if (timeLeft < 0) {
-                    clearInterval(timerInterval);
-                    timerCompleted = true;
-                    
-                    // Show the "I Agree" checkbox
-                    agreeContainer.style.display = 'block';
-                    agreeContainer.classList.add('fade-in');
-                    
-                    // Update timer display
-                    timerElement.textContent = '00:00';
-                    timerElement.style.color = '#28a745';
-                    
-                    // Update timer message
-                    document.querySelector('.timer-message').innerHTML = 
-                        '<strong style="color: #28a745;">✓ Time completed!</strong><br>You may now agree to the terms and submit.';
-                }
-            }, 1000);
-        }
-        
-        // Handle form submission
-        agreementForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Check if user agreed (client-side check for UX, server will also validate)
-            const agreeCheckbox = document.getElementById('agreeCheckbox');
-            if (agreeContainer.style.display !== 'none' && !agreeCheckbox.checked) {
-                showMessage('Please accept the terms and conditions.', 'error');
-                return;
-            }
-            
-            // Submit form via AJAX (server will validate timer and all other requirements)
-            const formData = new FormData(agreementForm);
-            formData.append('submit_agreement', '1');
-            
-            fetch('processer.php', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showMessage(data.message, 'success');
-                    setTimeout(() => {
-                        window.location.href = data.redirect;
-                    }, 1500);
-                } else {
-                    showMessage(data.error, 'error');
-                }
-            })
-            .catch(error => {
-                showMessage('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-            });
-        });
-        
-        // Show message function
-        function showMessage(message, type) {
-            messageArea.innerHTML = `<div class="message ${type}">${message}</div>`;
-            messageArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        
-        // Prevent page refresh/navigation
-        window.addEventListener('beforeunload', function(e) {
-            if (!timerCompleted) {
-                e.preventDefault();
-                e.returnValue = 'Please do not leave this page until you complete the agreement process.';
-                return 'Please do not leave this page until you complete the agreement process.';
-            }
-        });
-        
-        // Start the timer when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            startTimer();
-        });
-    </script>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header with Hamburger Menu -->
+            <header class="top-header">
+                <h1>Tree Species Selection</h1>
+                <div class="hamburger-menu">
+                    <button class="hamburger-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" id="refresh-btn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </a>
+                        <a href="#" class="dropdown-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+    <main class="container">
+        <header class="header">
+            <h1>Soil Type Processor</h1>
+            <p class="subtitle">Choose a soil type to send to the processing service.</p>
+        </header>
+
+        <?php if ($status_msg): ?>
+            <div class="alert success" role="status"><?php echo $status_msg; ?></div>
+        <?php endif; ?>
+
+        <?php if ($error_msg): ?>
+            <div class="alert error" role="alert"><?php echo $error_msg; ?></div>
+        <?php endif; ?>
+
+        <form method="POST" class="form-card" autocomplete="off" novalidate>
+            <label for="soil_type" class="label">Select soil type</label>
+            <select id="soil_type" name="soil_type" required class="select">
+                <option value="">-- Select Soil Type --</option>
+                <option value="ST01">Red Soil (Acrisols)</option>
+                <option value="ST02">Grey Forest Soil (Albeluvisols)</option>
+                <option value="ST03">Acidic Clay Soil (Alisols)</option>
+                <option value="ST04">Volcanic Ash Soil (Andosols)</option>
+                <option value="ST05">Sandy Soil (Arenosols)</option>
+                <option value="ST06">Calcareous Soil (Calcisols)</option>
+                <option value="ST07">Young Soil (Cambisols)</option>
+                <option value="ST08">Black Earth (Chernozems)</option>
+                <option value="ST09">Frozen Soil (Cryosols)</option>
+                <option value="ST10">Duripan Soil (Durisols)</option>
+                <option value="ST11">Weathered Tropical Soil (Ferralsols)</option>
+                <option value="ST12">Alluvial Soil (Fluvisols)</option>
+                <option value="ST13">Waterlogged Soil (Gleysols)</option>
+                <option value="ST14">Gypsum-Rich Soil (Gypsisols)</option>
+                <option value="ST15">Peaty Soil (Histosols)</option>
+                <option value="ST16">Chestnut Soil (Kastanozems)</option>
+                <option value="ST17">Shallow Rocky Soil (Leptosols)</option>
+                <option value="ST18">Low-Activity Clay Soil (Lixisols)</option>
+                <option value="ST19">Clay-Rich Fertile Soil (Luvisols)</option>
+                <option value="ST20">Deep Red Clay Soil (Nitisols)</option>
+                <option value="ST21">Dark Humus-Rich Soil (Phaeozems)</option>
+                <option value="ST22">Seasonally Waterlogged Soil (Planosols)</option>
+                <option value="ST23">Iron-Rich Hardpan Soil (Plinthosols)</option>
+                <option value="ST24">Acid Pod Soil (Podzols)</option>
+                <option value="ST25">Loose Unconsolidated Soil (Regosols)</option>
+                <option value="ST26">Saline Soil (Solonchaks)</option>
+                <option value="ST27">Sodium-Rich Soil (Solonetz)</option>
+                <option value="ST28">Poorly Drained Clay Soil (Stagnosols)</option>
+                <option value="ST29">Urban/Man-Made Soil (Technosols)</option>
+                <option value="ST30">Humus-Rich Acid Soil (Umbrisols)</option>
+                <option value="ST31">Self-Cracking Clay Soil (Vertisols)</option>
+                <option value="ST32">Sandy Ferralsols (Arenic Ferralsols)</option>
+            </select>
+            <div class="actions">
+                <button class="btn" type="submit" aria-label="Send soil selection">Send</button>
+            </div>
+        </form>
+        </main>
+    </div>
+    <script src="js/script.js"></script>
 </body>
 </html>
