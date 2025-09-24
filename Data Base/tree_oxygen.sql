@@ -2112,7 +2112,7 @@ CREATE TABLE tree_soil_pollution_range (
     tree_id VARCHAR(10) NOT NULL,
     SPL1 TINYINT(1) DEFAULT 0,  -- 0–1000 mg/kg (mg/kg = milligrams per kilogram of dry soil, pollutant concentration)
     SPL2 TINYINT(1) DEFAULT 0,  -- 1000–3000 mg/kg
-    SPL3 TINYINT(1) DEFAULT 0,  -- >3000 mg/kg
+    SPL3 TINYINT(1) DEFAULT 0,  -- 3000-4000 mg/kg
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -3122,7 +3122,7 @@ CREATE TABLE tree_soil_salt_range (
     tree_id VARCHAR(10) NOT NULL,
     SSL1 TINYINT(1) DEFAULT 0,  -- 0–2500 mg/kg (mg/kg = milligrams per kilogram of dry soil, salt concentration)
     SSL2 TINYINT(1) DEFAULT 0,  -- 2500–5000 mg/kg
-    SSL3 TINYINT(1) DEFAULT 0,  -- >5000 mg/kg
+    SSL3 TINYINT(1) DEFAULT 0,  -- 5000-7000 mg/kg
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -5286,7 +5286,7 @@ CREATE TABLE tree_water_salt_range (
     WSL1 TINYINT(1) DEFAULT 0,  -- 0–450 mg/L (mg/L = milligrams per liter of water, total dissolved salts)
     WSL2 TINYINT(1) DEFAULT 0,  -- 450–2000 mg/L
     WSL3 TINYINT(1) DEFAULT 0,  -- 2000–3000 mg/L
-    WSL4 TINYINT(1) DEFAULT 0,  -- >3000 mg/L
+    WSL4 TINYINT(1) DEFAULT 0,  -- 3000-5000 mg/L
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -6296,7 +6296,7 @@ CREATE TABLE tree_water_pollutant_range (
     tree_id VARCHAR(10) NOT NULL,
     WPL1 TINYINT(1) DEFAULT 0,  -- 0–0.1 mg/L (mg/L = milligrams per liter of water, pollutant concentration)
     WPL2 TINYINT(1) DEFAULT 0,  -- 0.1–1 mg/L
-    WPL3 TINYINT(1) DEFAULT 0,  -- >1 mg/L
+    WPL3 TINYINT(1) DEFAULT 0,  -- 1-1.5 mg/L
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -7307,7 +7307,7 @@ CREATE TABLE tree_wind_speed_range (
     WS1 TINYINT(1) DEFAULT 0,  -- 0–5 m/s (m/s = meters per second, wind speed)
     WS2 TINYINT(1) DEFAULT 0,  -- 5–10 m/s
     WS3 TINYINT(1) DEFAULT 0,  -- 10–20 m/s
-    WS4 TINYINT(1) DEFAULT 0,  -- >20 m/s
+    WS4 TINYINT(1) DEFAULT 0,  -- 20-35 m/s
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -10416,13 +10416,13 @@ INSERT INTO tree_space_cost (tree_id, t_space, t_cost) VALUES
 CREATE TABLE tree_soil_water_ph_level (
     tree_id VARCHAR(10) NOT NULL,
 
-    PH1 TINYINT(1) DEFAULT 1,  -- Strongly acidic (pH < 5.0)
+    PH1 TINYINT(1) DEFAULT 1,  -- Strongly acidic (pH 3.0 - 5.0)
     PH2 TINYINT(1) DEFAULT 1,  -- Moderately acidic (5.0 – 5.5)
     PH3 TINYINT(1) DEFAULT 1,  -- Slightly acidic (5.6 – 6.0)
     PH4 TINYINT(1) DEFAULT 1,  -- Neutral (6.1 – 7.0)
     PH5 TINYINT(1) DEFAULT 1,  -- Slightly alkaline (7.1 – 7.5)
     PH6 TINYINT(1) DEFAULT 1,  -- Moderately alkaline (7.6 – 8.0)
-    PH7 TINYINT(1) DEFAULT 1,  -- Strongly alkaline (> 8.0)
+    PH7 TINYINT(1) DEFAULT 1,  -- Strongly alkaline (8.0 - 9.0)
 
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
@@ -12568,7 +12568,7 @@ CREATE TABLE tree_light_intensity_range (
     LI2 TINYINT(1) DEFAULT 0,  -- Shade-tolerant (50–200 µmol/m²/s)
     LI3 TINYINT(1) DEFAULT 0,  -- Partial shade (200–500 µmol/m²/s)
     LI4 TINYINT(1) DEFAULT 0,  -- Moderate sun (500–1000 µmol/m²/s)
-    LI5 TINYINT(1) DEFAULT 0,  -- Full sun (1000–2000+ µmol/m²/s)
+    LI5 TINYINT(1) DEFAULT 0,  -- Full sun (1000–2000 µmol/m²/s)
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -13576,11 +13576,11 @@ INSERT INTO tree_light_intensity_range (tree_id, LI1, LI2, LI3, LI4, LI5) VALUES
 
 CREATE TABLE tree_soil_drainage_range (
     tree_id VARCHAR(10) NOT NULL,
-    SD1 TINYINT(1) DEFAULT 0,  -- Very poorly drained: <0.05 cm/hr
-    SD2 TINYINT(1) DEFAULT 0,  -- Poorly drained: 0.05–0.2 cm/hr
-    SD3 TINYINT(1) DEFAULT 0,  -- Moderately drained: 0.2–1 cm/hr
-    SD4 TINYINT(1) DEFAULT 0,  -- Well drained: 1–10 cm/hr
-    SD5 TINYINT(1) DEFAULT 0,  -- Excessively drained: >10 cm/hr
+    SD1 TINYINT(1) DEFAULT 0,  -- Very poorly drained: 0.05-0.2 cm/hr
+    SD2 TINYINT(1) DEFAULT 0,  -- Poorly drained: 0.2-1.2 cm/hr
+    SD3 TINYINT(1) DEFAULT 0,  -- Moderately drained: 1.2–3 cm/hr
+    SD4 TINYINT(1) DEFAULT 0,  -- Well drained: 3-6 cm/hr
+    SD5 TINYINT(1) DEFAULT 0,  -- Excessively drained: 6-12 cm/hr
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -14590,9 +14590,9 @@ CREATE TABLE tree_groundwater_depth_range (
     tree_id VARCHAR(10) NOT NULL,
     GW1 TINYINT(1) DEFAULT 0,  -- Very shallow (<1 m)
     GW2 TINYINT(1) DEFAULT 0,  -- Shallow (1–3 m)
-    GW3 TINYINT(1) DEFAULT 0,  -- Moderate (3–10 m)
-    GW4 TINYINT(1) DEFAULT 0,  -- Deep (10–20 m)
-    GW5 TINYINT(1) DEFAULT 0,  -- Very deep (>20 m)
+    GW3 TINYINT(1) DEFAULT 0,  -- Moderate (3–8 m)
+    GW4 TINYINT(1) DEFAULT 0,  -- Deep (8–15 m)
+    GW5 TINYINT(1) DEFAULT 0,  -- Very deep (15-20 m)
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -15600,11 +15600,11 @@ INSERT INTO tree_groundwater_depth_range (tree_id, GW1, GW2, GW3, GW4, GW5) VALU
 
 CREATE TABLE tree_rainfall_range (
     tree_id VARCHAR(10) NOT NULL,
-    RF1 TINYINT(1) DEFAULT 0,  -- Very low (<250 mm/year)
+    RF1 TINYINT(1) DEFAULT 0,  -- Very low (0-250 mm/year)
     RF2 TINYINT(1) DEFAULT 0,  -- Low (250–500 mm/year)
     RF3 TINYINT(1) DEFAULT 0,  -- Moderate (500–1000 mm/year)
-    RF4 TINYINT(1) DEFAULT 0,  -- High (1000–2000 mm/year)
-    RF5 TINYINT(1) DEFAULT 0,  -- Very high (>2000 mm/year)
+    RF4 TINYINT(1) DEFAULT 0,  -- High (1000–1500 mm/year)
+    RF5 TINYINT(1) DEFAULT 0,  -- Very high (1500-2000 mm/year)
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -18634,11 +18634,11 @@ INSERT INTO tree_erosion_tolerance_range (tree_id, ER1, ER2, ER3) VALUES
 
 CREATE TABLE tree_air_pollution_tolerance_range (
     tree_id VARCHAR(10) NOT NULL,
-    AP1 TINYINT(1) DEFAULT 0,  -- Very sensitive: APTI (Air Pollution Tolerance Index) < 10
+    AP1 TINYINT(1) DEFAULT 0,  -- Very sensitive: APTI (Air Pollution Tolerance Index) 5-10
     AP2 TINYINT(1) DEFAULT 0,  -- Sensitive: APTI 10–16
     AP3 TINYINT(1) DEFAULT 0,  -- Moderately tolerant: APTI 17–22
     AP4 TINYINT(1) DEFAULT 0,  -- Tolerant: APTI 23–29
-    AP5 TINYINT(1) DEFAULT 0,  -- Very tolerant: APTI ≥ 30
+    AP5 TINYINT(1) DEFAULT 0,  -- Very tolerant: APTI 30-50
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
 
@@ -19646,9 +19646,9 @@ INSERT INTO tree_air_pollution_tolerance_range (tree_id, AP1, AP2, AP3, AP4, AP5
 
 CREATE TABLE tree_direct_sunlight (
     tree_id VARCHAR(10) NOT NULL,
-    SL01 TINYINT(1) DEFAULT 0,  -- Full Sun (≥ 6–8 hours direct sunlight/day)
+    SL01 TINYINT(1) DEFAULT 0,  -- Full Sun (6–8 hours direct sunlight/day)
     SL02 TINYINT(1) DEFAULT 0,  -- Partial Shade (3–6 hours direct sunlight/day)
-    SL03 TINYINT(1) DEFAULT 0,  -- Shade Tolerant (≤ 3 hours direct sunlight/day)
+    SL03 TINYINT(1) DEFAULT 0,  -- Shade Tolerant (2-3 hours direct sunlight/day)
     PRIMARY KEY (tree_id),
     FOREIGN KEY (tree_id) REFERENCES trees(tree_id)
 );
@@ -28385,3 +28385,403 @@ INSERT INTO tree_02_production (tree_id, YE01, YE02, YE03, YE04, YE05, YE06, YE0
 ('T0799', 14.6, 33.5, 54.6, 77, 100.7, 125.3, 150.8, 137.8, 126, 115.1, 105.2, 96.2, 87.9, 80.3, 73.4, 67.1, 61.3, 56, 51.2),
 -- T0800 (Urban street tree (elm/ash) — proxy; mature ≈41.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:800]{index=800}
 ('T0800', 4.9, 11.2, 18.2, 25.8, 33.7, 41.9, 38.3, 35, 32, 29.2, 26.7, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13),
+-- T0801 (Poplar-like (fast coppice) — proxy; mature ≈196.2 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:801]{index=801}
+('T0801', 85.4, 196.2, 179.3, 163.9, 149.8, 136.9, 125.1, 114.3, 104.5, 95.5, 87.3, 79.8, 72.9, 66.6, 60.9, 55.7, 50.9, 46.5, 42.5),
+-- T0802 (Large tropical hardwood — proxy; mature ≈163.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:802]{index=802}
+('T0802', 15.8, 36.3, 59.1, 83.5, 109.1, 135.8, 163.4, 149.3, 136.5, 124.7, 114, 104.2, 95.2, 87, 79.5, 72.7, 66.4, 60.7, 55.5),
+-- T0803 (Temperate oak-like hardwood — proxy; mature ≈87.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:803]{index=803}
+('T0803', 8.5, 19.5, 31.7, 44.8, 58.5, 72.8, 87.6, 80.1, 73.2, 66.9, 61.1, 55.9, 51, 46.7, 42.6, 39, 35.6, 32.6, 29.7),
+-- T0804 (Eucalyptus-like plantation — proxy; mature ≈178.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:804]{index=804}
+('T0804', 77.7, 178.5, 163.1, 149.1, 136.3, 124.5, 113.8, 104, 95.1, 86.9, 79.4, 72.6, 66.3, 60.6, 55.4, 50.6, 46.3, 42.3, 38.7),
+-- T0805 (Conifer slow (pine/cedar) — proxy; mature ≈31.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:805]{index=805}
+('T0805', 2.6, 6, 9.8, 13.8, 18.1, 22.5, 27.1, 31.8, 29.1, 26.6, 24.3, 22.2, 20.3, 18.5, 16.9, 15.5, 14.1, 12.9, 11.8),
+-- T0806 (Fruit tree (mango/jackfruit class) — proxy; mature ≈91.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:806]{index=806}
+('T0806', 10.7, 24.5, 39.8, 56.2, 73.5, 91.5, 83.6, 76.4, 69.8, 63.8, 58.3, 53.3, 48.7, 44.5, 40.7, 37.2, 34, 31.1, 28.4),
+-- T0807 (Palm (coconut/date class) — proxy; mature ≈58.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:807]{index=807}
+('T0807', 6.8, 15.7, 25.6, 36.1, 47.2, 58.7, 53.6, 49, 44.8, 41, 37.4, 34.2, 31.3, 28.6, 26.1, 23.9, 21.8, 19.9, 18.2),
+-- T0808 (Small fruit (orange/guava class) — proxy; mature ≈49.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:808]{index=808}
+('T0808', 5.8, 13.4, 21.7, 30.7, 40.1, 49.9, 45.6, 41.7, 38.1, 34.8, 31.8, 29.1, 26.6, 24.3, 22.2, 20.3, 18.5, 16.9, 15.5),
+-- T0809 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈115.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:809]{index=809}
+('T0809', 50.4, 115.7, 105.7, 96.6, 88.3, 80.7, 73.8, 67.4, 61.6, 56.3, 51.5, 47, 43, 39.3, 35.9, 32.8, 30, 27.4, 25.1),
+-- T0810 (Bamboo (clump/culm proxy) — proxy; mature ≈201.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:810]{index=810}
+('T0810', 87.5, 201, 183.7, 167.9, 153.4, 140.2, 128.2, 117.1, 107.1, 97.8, 89.4, 81.7, 74.7, 68.3, 62.4, 57, 52.1, 47.6, 43.5),
+-- T0811 (Shade urban tree (maple/linden) — proxy; mature ≈72.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:811]{index=811}
+('T0811', 8.5, 19.5, 31.7, 44.8, 58.5, 72.8, 66.5, 60.8, 55.6, 50.8, 46.4, 42.4, 38.8, 35.4, 32.4, 29.6, 27.1, 24.7, 22.6),
+-- T0812 (Medium tropical (teak-like) — proxy; mature ≈102.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:812]{index=812}
+('T0812', 9.9, 22.8, 37.1, 52.4, 68.4, 85.2, 102.5, 93.7, 85.6, 78.2, 71.5, 65.4, 59.7, 54.6, 49.9, 45.6, 41.7, 38.1, 34.8),
+-- T0813 (Slow broadleaf (beech-like) — proxy; mature ≈75.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:813]{index=813}
+('T0813', 6.2, 14.2, 23.2, 32.7, 42.8, 53.2, 64.1, 75.2, 68.7, 62.8, 57.4, 52.5, 47.9, 43.8, 40.1, 36.6, 33.5, 30.6, 27.9),
+-- T0814 (Ornamental small (bottlebrush) — proxy; mature ≈25.9 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:814]{index=814}
+('T0814', 3, 6.9, 11.3, 15.9, 20.8, 25.9, 23.7, 21.6, 19.8, 18.1, 16.5, 15.1, 13.8, 12.6, 11.5, 10.5, 9.6, 8.8, 8),
+-- T0815 (Oil palm / rubber class — proxy; mature ≈74.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:815]{index=815}
+('T0815', 8.7, 20, 32.6, 46, 60.2, 74.9, 68.5, 62.6, 57.2, 52.3, 47.8, 43.6, 39.9, 36.5, 33.3, 30.5, 27.8, 25.4, 23.2),
+-- T0816 (Agrofruit (avocado/lychee class) — proxy; mature ≈70.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:816]{index=816}
+('T0816', 30.9, 70.9, 64.8, 59.2, 54.1, 49.5, 45.2, 41.3, 37.8, 34.5, 31.5, 28.8, 26.3, 24.1, 22, 20.1, 18.4, 16.8, 15.4),
+-- T0817 (Chestnut/walnut class — proxy; mature ≈95.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:817]{index=817}
+('T0817', 9.3, 21.3, 34.6, 48.8, 63.8, 79.5, 95.6, 87.4, 79.9, 73, 66.7, 61, 55.7, 50.9, 46.5, 42.5, 38.9, 35.5, 32.5),
+-- T0818 (Mangrove/tidal species (low-med) — proxy; mature ≈38.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:818]{index=818}
+('T0818', 3.2, 7.3, 11.8, 16.7, 21.8, 27.2, 32.7, 38.4, 35.1, 32.1, 29.3, 26.8, 24.5, 22.4, 20.5, 18.7, 17.1, 15.6, 14.3),
+-- T0819 (Shade canopy (rain tree-like) — proxy; mature ≈145.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:819]{index=819}
+('T0819', 14.1, 32.3, 52.5, 74.2, 97, 120.7, 145.2, 132.7, 121.3, 110.8, 101.3, 92.6, 84.6, 77.3, 70.7, 64.6, 59, 54, 49.3),
+-- T0820 (Urban street tree (elm/ash) — proxy; mature ≈45.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:820]{index=820}
+('T0820', 5.3, 12.1, 19.8, 27.9, 36.5, 45.4, 41.5, 37.9, 34.7, 31.7, 28.9, 26.5, 24.2, 22.1, 20.2, 18.5, 16.9, 15.4, 14.1),
+-- T0821 (Poplar-like (fast coppice) — proxy; mature ≈188.1 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:821]{index=821}
+('T0821', 81.9, 188.1, 171.9, 157.1, 143.6, 131.2, 119.9, 109.6, 100.2, 91.6, 83.7, 76.5, 69.9, 63.9, 58.4, 53.4, 48.8, 44.6, 40.7),
+-- T0822 (Large tropical hardwood — proxy; mature ≈162.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:822]{index=822}
+('T0822', 15.7, 36, 58.6, 82.8, 108.2, 134.6, 162, 148.1, 135.3, 123.7, 113, 103.3, 94.4, 86.3, 78.9, 72.1, 65.9, 60.2, 55),
+-- T0823 (Temperate oak-like hardwood — proxy; mature ≈90.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:823]{index=823}
+('T0823', 8.8, 20.1, 32.8, 46.3, 60.5, 75.3, 90.6, 82.8, 75.7, 69.2, 63.2, 57.8, 52.8, 48.3, 44.1, 40.3, 36.8, 33.7, 30.8),
+-- T0824 (Eucalyptus-like plantation — proxy; mature ≈168.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:824]{index=824}
+('T0824', 73.3, 168.3, 153.8, 140.6, 128.5, 117.4, 107.3, 98.1, 89.6, 81.9, 74.9, 68.4, 62.5, 57.2, 52.2, 47.7, 43.6, 39.9, 36.4),
+-- T0825 (Conifer slow (pine/cedar) — proxy; mature ≈31.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:825]{index=825}
+('T0825', 2.6, 5.9, 9.6, 13.5, 17.6, 22, 26.4, 31, 28.3, 25.9, 23.7, 21.6, 19.8, 18.1, 16.5, 15.1, 13.8, 12.6, 11.5),
+-- T0826 (Fruit tree (mango/jackfruit class) — proxy; mature ≈99.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:826]{index=826}
+('T0826', 11.6, 26.6, 43.3, 61.1, 79.9, 99.4, 90.8, 83, 75.9, 69.3, 63.4, 57.9, 52.9, 48.4, 44.2, 40.4, 36.9, 33.8, 30.9),
+-- T0827 (Palm (coconut/date class) — proxy; mature ≈61.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:827]{index=827}
+('T0827', 7.2, 16.5, 26.9, 38, 49.7, 61.8, 56.5, 51.6, 47.2, 43.1, 39.4, 36, 32.9, 30.1, 27.5, 25.1, 23, 21, 19.2),
+-- T0828 (Small fruit (orange/guava class) — proxy; mature ≈50.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:828]{index=828}
+('T0828', 5.9, 13.5, 22, 31, 40.6, 50.5, 46.2, 42.2, 38.6, 35.2, 32.2, 29.4, 26.9, 24.6, 22.5, 20.5, 18.8, 17.1, 15.7),
+-- T0829 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈120.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:829]{index=829}
+('T0829', 52.3, 120.1, 109.8, 100.3, 91.7, 83.8, 76.6, 70, 64, 58.5, 53.4, 48.8, 44.6, 40.8, 37.3, 34.1, 31.1, 28.5, 26),
+-- T0830 (Bamboo (clump/culm proxy) — proxy; mature ≈212.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:830]{index=830}
+('T0830', 92.4, 212.2, 193.9, 177.2, 162, 148, 135.3, 123.7, 113, 103.3, 94.4, 86.3, 78.8, 72.1, 65.9, 60.2, 55, 50.3, 45.9),
+-- T0831 (Shade urban tree (maple/linden) — proxy; mature ≈72.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:831]{index=831}
+('T0831', 8.5, 19.5, 31.6, 44.7, 58.4, 72.7, 66.4, 60.7, 55.5, 50.7, 46.4, 42.4, 38.7, 35.4, 32.3, 29.6, 27, 24.7, 22.6),
+-- T0832 (Medium tropical (teak-like) — proxy; mature ≈114.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:832]{index=832}
+('T0832', 11.1, 25.5, 41.4, 58.5, 76.5, 95.2, 114.5, 104.6, 95.6, 87.4, 79.9, 73, 66.7, 61, 55.7, 50.9, 46.6, 42.5, 38.9),
+-- T0833 (Slow broadleaf (beech-like) — proxy; mature ≈79.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:833]{index=833}
+('T0833', 6.6, 15.1, 24.6, 34.7, 45.4, 56.5, 68, 79.8, 72.9, 66.7, 60.9, 55.7, 50.9, 46.5, 42.5, 38.8, 35.5, 32.4, 29.7),
+-- T0834 (Ornamental small (bottlebrush) — proxy; mature ≈23.3 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:834]{index=834}
+('T0834', 2.7, 6.2, 10.1, 14.3, 18.7, 23.3, 21.3, 19.5, 17.8, 16.3, 14.9, 13.6, 12.4, 11.3, 10.4, 9.5, 8.7, 7.9, 7.2),
+-- T0835 (Oil palm / rubber class — proxy; mature ≈77.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:835]{index=835}
+('T0835', 9, 20.6, 33.5, 47.3, 61.9, 77, 70.4, 64.3, 58.8, 53.7, 49.1, 44.9, 41, 37.5, 34.3, 31.3, 28.6, 26.1, 23.9),
+-- T0836 (Agrofruit (avocado/lychee class) — proxy; mature ≈79.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:836]{index=836}
+('T0836', 34.5, 79.3, 72.5, 66.2, 60.5, 55.3, 50.6, 46.2, 42.2, 38.6, 35.3, 32.2, 29.5, 26.9, 24.6, 22.5, 20.6, 18.8, 17.2),
+-- T0837 (Chestnut/walnut class — proxy; mature ≈93.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:837]{index=837}
+('T0837', 9, 20.7, 33.8, 47.7, 62.3, 77.5, 93.3, 85.3, 77.9, 71.2, 65.1, 59.5, 54.4, 49.7, 45.4, 41.5, 37.9, 34.7, 31.7),
+-- T0838 (Mangrove/tidal species (low-med) — proxy; mature ≈40.7 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:838]{index=838}
+('T0838', 3.4, 7.7, 12.5, 17.7, 23.2, 28.8, 34.7, 40.7, 37.2, 34, 31.1, 28.4, 26, 23.7, 21.7, 19.8, 18.1, 16.5, 15.1),
+-- T0839 (Shade canopy (rain tree-like) — proxy; mature ≈158.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:839]{index=839}
+('T0839', 15.4, 35.3, 57.4, 81, 105.9, 131.8, 158.6, 144.9, 132.5, 121.1, 110.7, 101.1, 92.4, 84.5, 77.2, 70.6, 64.5, 58.9, 53.9),
+-- T0840 (Urban street tree (elm/ash) — proxy; mature ≈47.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:840]{index=840}
+('T0840', 5.6, 12.8, 20.8, 29.4, 38.4, 47.8, 43.7, 39.9, 36.5, 33.3, 30.5, 27.9, 25.5, 23.3, 21.3, 19.4, 17.8, 16.2, 14.8),
+-- T0841 (Poplar-like (fast coppice) — proxy; mature ≈200.3 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:841]{index=841}
+('T0841', 87.2, 200.3, 183.1, 167.3, 152.9, 139.7, 127.7, 116.7, 106.7, 97.5, 89.1, 81.4, 74.4, 68, 62.2, 56.8, 51.9, 47.5, 43.4),
+-- T0842 (Large tropical hardwood — proxy; mature ≈169.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:842]{index=842}
+('T0842', 16.4, 37.7, 61.4, 86.7, 113.3, 141, 169.7, 155.1, 141.7, 129.5, 118.4, 108.2, 98.9, 90.4, 82.6, 75.5, 69, 63.1, 57.6),
+-- T0843 (Temperate oak-like hardwood — proxy; mature ≈80.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:843]{index=843}
+('T0843', 7.8, 17.9, 29, 41, 53.6, 66.7, 80.3, 73.4, 67.1, 61.3, 56, 51.2, 46.8, 42.8, 39.1, 35.7, 32.6, 29.8, 27.3),
+-- T0844 (Eucalyptus-like plantation — proxy; mature ≈180.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:844]{index=844}
+('T0844', 78.5, 180.3, 164.8, 150.6, 137.6, 125.8, 115, 105.1, 96, 87.8, 80.2, 73.3, 67, 61.2, 56, 51.1, 46.7, 42.7, 39),
+-- T0845 (Conifer slow (pine/cedar) — proxy; mature ≈29.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:845]{index=845}
+('T0845', 2.4, 5.6, 9.1, 12.9, 16.8, 21, 25.2, 29.6, 27.1, 24.7, 22.6, 20.7, 18.9, 17.2, 15.8, 14.4, 13.2, 12, 11),
+-- T0846 (Fruit tree (mango/jackfruit class) — proxy; mature ≈96.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:846]{index=846}
+('T0846', 11.2, 25.7, 41.9, 59.1, 77.3, 96.2, 87.9, 80.4, 73.4, 67.1, 61.3, 56.1, 51.2, 46.8, 42.8, 39.1, 35.7, 32.7, 29.9),
+-- T0847 (Palm (coconut/date class) — proxy; mature ≈57.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:847]{index=847}
+('T0847', 6.6, 15.3, 24.8, 35, 45.8, 57, 52.1, 47.6, 43.5, 39.8, 36.3, 33.2, 30.4, 27.7, 25.4, 23.2, 21.2, 19.4, 17.7),
+-- T0848 (Small fruit (orange/guava class) — proxy; mature ≈50.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:848]{index=848}
+('T0848', 5.9, 13.5, 21.9, 30.9, 40.4, 50.3, 46, 42, 38.4, 35.1, 32.1, 29.3, 26.8, 24.5, 22.4, 20.5, 18.7, 17.1, 15.6),
+-- T0849 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈118.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:849]{index=849}
+('T0849', 51.7, 118.7, 108.5, 99.1, 90.6, 82.8, 75.7, 69.2, 63.2, 57.8, 52.8, 48.3, 44.1, 40.3, 36.8, 33.7, 30.8, 28.1, 25.7),
+-- T0850 (Bamboo (clump/culm proxy) — proxy; mature ≈191.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:850]{index=850}
+('T0850', 83.3, 191.4, 174.9, 159.9, 146.1, 133.5, 122, 111.5, 101.9, 93.2, 85.1, 77.8, 71.1, 65, 59.4, 54.3, 49.6, 45.3, 41.4),
+-- T0851 (Shade urban tree (maple/linden) — proxy; mature ≈70.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:851]{index=851}
+('T0851', 8.2, 18.8, 30.5, 43.1, 56.3, 70.1, 64.1, 58.6, 53.5, 48.9, 44.7, 40.9, 37.3, 34.1, 31.2, 28.5, 26, 23.8, 21.8),
+-- T0852 (Medium tropical (teak-like) — proxy; mature ≈112.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:852]{index=852}
+('T0852', 10.9, 25, 40.6, 57.3, 74.9, 93.3, 112.2, 102.5, 93.7, 85.7, 78.3, 71.5, 65.4, 59.8, 54.6, 49.9, 45.6, 41.7, 38.1),
+-- T0853 (Slow broadleaf (beech-like) — proxy; mature ≈80.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:853]{index=853}
+('T0853', 6.7, 15.3, 24.9, 35.1, 45.9, 57.1, 68.8, 80.7, 73.8, 67.4, 61.6, 56.3, 51.5, 47, 43, 39.3, 35.9, 32.8, 30),
+-- T0854 (Ornamental small (bottlebrush) — proxy; mature ≈23.3 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:854]{index=854}
+('T0854', 2.7, 6.2, 10.1, 14.3, 18.7, 23.3, 21.3, 19.5, 17.8, 16.3, 14.9, 13.6, 12.4, 11.3, 10.4, 9.5, 8.7, 7.9, 7.2),
+-- T0855 (Oil palm / rubber class — proxy; mature ≈80.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:855]{index=855}
+('T0855', 9.4, 21.5, 35, 49.5, 64.7, 80.5, 73.6, 67.2, 61.5, 56.2, 51.3, 46.9, 42.9, 39.2, 35.8, 32.7, 29.9, 27.3, 25),
+-- T0856 (Agrofruit (avocado/lychee class) — proxy; mature ≈79.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:856]{index=856}
+('T0856', 34.5, 79.3, 72.5, 66.2, 60.5, 55.3, 50.6, 46.2, 42.2, 38.6, 35.3, 32.2, 29.5, 26.9, 24.6, 22.5, 20.6, 18.8, 17.2),
+-- T0857 (Chestnut/walnut class — proxy; mature ≈89.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:857]{index=857}
+('T0857', 8.7, 20, 32.5, 45.9, 60, 74.6, 89.8, 82.1, 75, 68.6, 62.7, 57.3, 52.3, 47.8, 43.7, 39.9, 36.5, 33.4, 30.5),
+-- T0858 (Mangrove/tidal species (low-med) — proxy; mature ≈39.8 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:858]{index=858}
+('T0858', 3.3, 7.5, 12.3, 17.3, 22.6, 28.2, 33.9, 39.8, 36.4, 33.2, 30.4, 27.8, 25.4, 23.2, 21.2, 19.4, 17.7, 16.2, 14.8),
+-- T0859 (Shade canopy (rain tree-like) — proxy; mature ≈154.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:859]{index=859}
+('T0859', 15, 34.4, 56, 79.1, 103.4, 128.7, 154.9, 141.6, 129.4, 118.2, 108.1, 98.8, 90.3, 82.5, 75.4, 68.9, 63, 57.6, 52.6),
+-- T0860 (Urban street tree (elm/ash) — proxy; mature ≈42.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:860]{index=860}
+('T0860', 5, 11.4, 18.5, 26.1, 34.1, 42.5, 38.8, 35.5, 32.4, 29.7, 27.1, 24.8, 22.6, 20.7, 18.9, 17.3, 15.8, 14.4, 13.2),
+-- T0861 (Poplar-like (fast coppice) — proxy; mature ≈194.7 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:861]{index=861}
+('T0861', 84.7, 194.7, 177.9, 162.6, 148.6, 135.8, 124.1, 113.5, 103.7, 94.8, 86.6, 79.2, 72.3, 66.1, 60.4, 55.2, 50.5, 46.1, 42.2),
+-- T0862 (Large tropical hardwood — proxy; mature ≈166.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:862]{index=862}
+('T0862', 16.1, 37.1, 60.3, 85.1, 111.3, 138.5, 166.6, 152.3, 139.2, 127.2, 116.2, 106.2, 97.1, 88.7, 81.1, 74.1, 67.7, 61.9, 56.6),
+-- T0863 (Temperate oak-like hardwood — proxy; mature ≈87.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:863]{index=863}
+('T0863', 8.4, 19.4, 31.5, 44.6, 58.2, 72.5, 87.2, 79.7, 72.8, 66.6, 60.8, 55.6, 50.8, 46.4, 42.4, 38.8, 35.5, 32.4, 29.6),
+-- T0864 (Eucalyptus-like plantation — proxy; mature ≈182.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:864]{index=864}
+('T0864', 79.4, 182.5, 166.8, 152.4, 139.3, 127.3, 116.4, 106.4, 97.2, 88.8, 81.2, 74.2, 67.8, 62, 56.6, 51.8, 47.3, 43.2, 39.5),
+-- T0865 (Conifer slow (pine/cedar) — proxy; mature ≈31.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:865]{index=865}
+('T0865', 2.6, 5.9, 9.7, 13.7, 17.9, 22.2, 26.8, 31.4, 28.7, 26.2, 24, 21.9, 20, 18.3, 16.7, 15.3, 14, 12.8, 11.7),
+-- T0866 (Fruit tree (mango/jackfruit class) — proxy; mature ≈101.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:866]{index=866}
+('T0866', 11.8, 27.1, 44.1, 62.3, 81.5, 101.4, 92.7, 84.7, 77.4, 70.7, 64.7, 59.1, 54, 49.4, 45.1, 41.2, 37.7, 34.4, 31.5),
+-- T0867 (Palm (coconut/date class) — proxy; mature ≈61.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:867]{index=867}
+('T0867', 7.1, 16.3, 26.6, 37.5, 49, 61, 55.7, 51, 46.6, 42.6, 38.9, 35.5, 32.5, 29.7, 27.1, 24.8, 22.7, 20.7, 18.9),
+-- T0868 (Small fruit (orange/guava class) — proxy; mature ≈49.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:868]{index=868}
+('T0868', 5.7, 13.1, 21.4, 30.2, 39.5, 49.1, 44.9, 41, 37.5, 34.3, 31.3, 28.6, 26.2, 23.9, 21.8, 20, 18.2, 16.7, 15.2),
+-- T0869 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈125.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:869]{index=869}
+('T0869', 54.5, 125.3, 114.5, 104.7, 95.7, 87.4, 79.9, 73, 66.7, 61, 55.7, 50.9, 46.6, 42.6, 38.9, 35.5, 32.5, 29.7, 27.1),
+-- T0870 (Bamboo (clump/culm proxy) — proxy; mature ≈201.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:870]{index=870}
+('T0870', 87.5, 201, 183.7, 167.9, 153.4, 140.2, 128.2, 117.1, 107.1, 97.8, 89.4, 81.7, 74.7, 68.3, 62.4, 57, 52.1, 47.6, 43.5),
+-- T0871 (Shade urban tree (maple/linden) — proxy; mature ≈69.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:871]{index=871}
+('T0871', 8.1, 18.6, 30.2, 42.7, 55.8, 69.4, 63.4, 58, 53, 48.4, 44.3, 40.4, 37, 33.8, 30.9, 28.2, 25.8, 23.6, 21.5),
+-- T0872 (Medium tropical (teak-like) — proxy; mature ≈107.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:872]{index=872}
+('T0872', 10.4, 23.8, 38.7, 54.7, 71.5, 88.9, 107, 97.8, 89.4, 81.7, 74.7, 68.2, 62.4, 57, 52.1, 47.6, 43.5, 39.8, 36.3),
+-- T0873 (Slow broadleaf (beech-like) — proxy; mature ≈79.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:873]{index=873}
+('T0873', 6.6, 15.1, 24.6, 34.7, 45.4, 56.5, 68, 79.8, 72.9, 66.7, 60.9, 55.7, 50.9, 46.5, 42.5, 38.8, 35.5, 32.4, 29.7),
+-- T0874 (Ornamental small (bottlebrush) — proxy; mature ≈26.7 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:874]{index=874}
+('T0874', 3.1, 7.1, 11.6, 16.4, 21.5, 26.7, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13, 11.9, 10.9, 9.9, 9.1, 8.3),
+-- T0875 (Oil palm / rubber class — proxy; mature ≈83.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:875]{index=875}
+('T0875', 9.7, 22.3, 36.3, 51.3, 67.1, 83.5, 76.3, 69.7, 63.7, 58.3, 53.2, 48.7, 44.5, 40.6, 37.1, 33.9, 31, 28.4, 25.9),
+-- T0876 (Agrofruit (avocado/lychee class) — proxy; mature ≈73.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:876]{index=876}
+('T0876', 32, 73.5, 67.2, 61.4, 56.1, 51.3, 46.9, 42.8, 39.1, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.8, 19.1, 17.4, 15.9),
+-- T0877 (Chestnut/walnut class — proxy; mature ≈88.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:877]{index=877}
+('T0877', 8.6, 19.8, 32.2, 45.4, 59.4, 73.9, 88.9, 81.2, 74.3, 67.9, 62, 56.7, 51.8, 47.3, 43.3, 39.5, 36.1, 33, 30.2),
+-- T0878 (Mangrove/tidal species (low-med) — proxy; mature ≈38.2 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:878]{index=878}
+('T0878', 3.2, 7.2, 11.8, 16.6, 21.7, 27, 32.5, 38.2, 34.9, 31.9, 29.2, 26.7, 24.4, 22.3, 20.3, 18.6, 17, 15.5, 14.2),
+-- T0879 (Shade canopy (rain tree-like) — proxy; mature ≈143.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:879]{index=879}
+('T0879', 13.9, 32, 52, 73.5, 96, 119.5, 143.8, 131.4, 120.1, 109.8, 100.3, 91.7, 83.8, 76.6, 70, 64, 58.5, 53.4, 48.8),
+-- T0880 (Urban street tree (elm/ash) — proxy; mature ≈42.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:880]{index=880}
+('T0880', 5, 11.4, 18.5, 26.2, 34.2, 42.6, 38.9, 35.6, 32.5, 29.7, 27.2, 24.8, 22.7, 20.7, 19, 17.3, 15.8, 14.5, 13.2),
+-- T0881 (Poplar-like (fast coppice) — proxy; mature ≈209.8 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:881]{index=881}
+('T0881', 91.3, 209.8, 191.7, 175.2, 160.2, 146.4, 133.8, 122.3, 111.7, 102.1, 93.3, 85.3, 78, 71.2, 65.1, 59.5, 54.4, 49.7, 45.4),
+-- T0882 (Large tropical hardwood — proxy; mature ≈165.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:882]{index=882}
+('T0882', 16, 36.8, 59.9, 84.6, 110.5, 137.6, 165.5, 151.3, 138.2, 126.3, 115.5, 105.5, 96.4, 88.1, 80.6, 73.6, 67.3, 61.5, 56.2),
+-- T0883 (Temperate oak-like hardwood — proxy; mature ≈81.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:883]{index=883}
+('T0883', 7.9, 18.1, 29.4, 41.5, 54.2, 67.5, 81.2, 74.2, 67.8, 62, 56.7, 51.8, 47.3, 43.2, 39.5, 36.1, 33, 30.2, 27.6),
+-- T0884 (Eucalyptus-like plantation — proxy; mature ≈169.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:884]{index=884}
+('T0884', 73.6, 169.2, 154.6, 141.3, 129.2, 118, 107.9, 98.6, 90.1, 82.4, 75.3, 68.8, 62.9, 57.5, 52.5, 48, 43.9, 40.1, 36.6),
+-- T0885 (Conifer slow (pine/cedar) — proxy; mature ≈31.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:885]{index=885}
+('T0885', 2.6, 5.9, 9.6, 13.5, 17.6, 22, 26.4, 31, 28.3, 25.9, 23.7, 21.6, 19.8, 18.1, 16.5, 15.1, 13.8, 12.6, 11.5),
+-- T0886 (Fruit tree (mango/jackfruit class) — proxy; mature ≈95.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:886]{index=886}
+('T0886', 11.2, 25.7, 41.7, 59, 77.1, 95.9, 87.6, 80.1, 73.2, 66.9, 61.1, 55.9, 51.1, 46.7, 42.7, 39, 35.6, 32.6, 29.8),
+-- T0887 (Palm (coconut/date class) — proxy; mature ≈61.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:887]{index=887}
+('T0887', 7.2, 16.5, 26.9, 37.9, 49.6, 61.7, 56.4, 51.5, 47.1, 43, 39.3, 36, 32.9, 30, 27.4, 25.1, 22.9, 21, 19.1),
+-- T0888 (Small fruit (orange/guava class) — proxy; mature ≈47.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:888]{index=888}
+('T0888', 5.5, 12.7, 20.6, 29.1, 38.1, 47.4, 43.3, 39.6, 36.2, 33.1, 30.2, 27.6, 25.2, 23.1, 21.1, 19.3, 17.6, 16.1, 14.7),
+-- T0889 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈115.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:889]{index=889}
+('T0889', 50.4, 115.8, 105.8, 96.7, 88.4, 80.8, 73.8, 67.5, 61.7, 56.4, 51.5, 47.1, 43, 39.3, 35.9, 32.8, 30, 27.4, 25.1),
+-- T0890 (Bamboo (clump/culm proxy) — proxy; mature ≈213.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:890]{index=890}
+('T0890', 93.1, 213.9, 195.5, 178.7, 163.3, 149.2, 136.4, 124.6, 113.9, 104.1, 95.2, 87, 79.5, 72.6, 66.4, 60.7, 55.5, 50.7, 46.3),
+-- T0891 (Shade urban tree (maple/linden) — proxy; mature ≈65.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:891]{index=891}
+('T0891', 7.6, 17.4, 28.3, 40, 52.3, 65.1, 59.5, 54.4, 49.7, 45.4, 41.5, 37.9, 34.7, 31.7, 29, 26.5, 24.2, 22.1, 20.2),
+-- T0892 (Medium tropical (teak-like) — proxy; mature ≈111.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:892]{index=892}
+('T0892', 10.8, 24.7, 40.2, 56.8, 74.3, 92.4, 111.2, 101.6, 92.9, 84.9, 77.6, 70.9, 64.8, 59.2, 54.1, 49.5, 45.2, 41.3, 37.8),
+-- T0893 (Slow broadleaf (beech-like) — proxy; mature ≈74.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:893]{index=893}
+('T0893', 6.2, 14.2, 23, 32.5, 42.5, 52.9, 63.6, 74.7, 68.3, 62.4, 57, 52.1, 47.6, 43.5, 39.8, 36.4, 33.2, 30.4, 27.8),
+-- T0894 (Ornamental small (bottlebrush) — proxy; mature ≈23.6 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:894]{index=894}
+('T0894', 2.7, 6.3, 10.3, 14.5, 19, 23.6, 21.6, 19.7, 18, 16.5, 15, 13.8, 12.6, 11.5, 10.5, 9.6, 8.8, 8, 7.3),
+-- T0895 (Oil palm / rubber class — proxy; mature ≈75.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:895]{index=895}
+('T0895', 8.8, 20.2, 32.8, 46.4, 60.6, 75.4, 68.9, 63, 57.6, 52.6, 48.1, 43.9, 40.2, 36.7, 33.5, 30.7, 28, 25.6, 23.4),
+-- T0896 (Agrofruit (avocado/lychee class) — proxy; mature ≈75.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:896]{index=896}
+('T0896', 32.7, 75.1, 68.6, 62.7, 57.3, 52.4, 47.9, 43.8, 40, 36.6, 33.4, 30.5, 27.9, 25.5, 23.3, 21.3, 19.5, 17.8, 16.3),
+-- T0897 (Chestnut/walnut class — proxy; mature ≈91.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:897]{index=897}
+('T0897', 8.8, 20.3, 33, 46.6, 61, 75.9, 91.3, 83.4, 76.3, 69.7, 63.7, 58.2, 53.2, 48.6, 44.4, 40.6, 37.1, 33.9, 31),
+-- T0898 (Mangrove/tidal species (low-med) — proxy; mature ≈38.2 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:898]{index=898}
+('T0898', 3.2, 7.2, 11.8, 16.6, 21.7, 27, 32.5, 38.2, 34.9, 31.9, 29.2, 26.7, 24.4, 22.3, 20.3, 18.6, 17, 15.5, 14.2),
+-- T0899 (Shade canopy (rain tree-like) — proxy; mature ≈152.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:899]{index=899}
+('T0899', 14.8, 33.9, 55.2, 78, 101.9, 126.8, 152.6, 139.5, 127.5, 116.5, 106.5, 97.3, 88.9, 81.3, 74.3, 67.9, 62, 56.7, 51.8),
+-- T0900 (Urban street tree (elm/ash) — proxy; mature ≈46.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:900]{index=900}
+('T0900', 5.4, 12.4, 20.2, 28.5, 37.2, 46.3, 42.3, 38.7, 35.3, 32.3, 29.5, 27, 24.7, 22.5, 20.6, 18.8, 17.2, 15.7, 14.4),
+-- T0901 (Poplar-like (fast coppice) — proxy; mature ≈211.3 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:901]{index=901}
+('T0901', 92, 211.3, 193.1, 176.5, 161.3, 147.4, 134.7, 123.1, 112.5, 102.9, 94, 85.9, 78.5, 71.8, 65.6, 59.9, 54.8, 50.1, 45.8),
+-- T0902 (Large tropical hardwood — proxy; mature ≈163.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:902]{index=902}
+('T0902', 15.8, 36.4, 59.1, 83.5, 109.2, 135.9, 163.5, 149.4, 136.6, 124.8, 114.1, 104.3, 95.3, 87.1, 79.6, 72.7, 66.5, 60.8, 55.5),
+-- T0903 (Temperate oak-like hardwood — proxy; mature ≈80.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:903]{index=903}
+('T0903', 7.8, 18, 29.2, 41.3, 54, 67.2, 80.8, 73.8, 67.5, 61.7, 56.4, 51.5, 47.1, 43, 39.3, 35.9, 32.9, 30, 27.4),
+-- T0904 (Eucalyptus-like plantation — proxy; mature ≈179.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:904]{index=904}
+('T0904', 78.3, 179.8, 164.3, 150.2, 137.3, 125.4, 114.6, 104.8, 95.8, 87.5, 80, 73.1, 66.8, 61.1, 55.8, 51, 46.6, 42.6, 38.9),
+-- T0905 (Conifer slow (pine/cedar) — proxy; mature ≈32.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:905]{index=905}
+('T0905', 2.6, 6.1, 9.9, 13.9, 18.2, 22.7, 27.3, 32, 29.2, 26.7, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13, 11.9),
+-- T0906 (Fruit tree (mango/jackfruit class) — proxy; mature ≈93.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:906]{index=906}
+('T0906', 10.9, 25, 40.6, 57.4, 75, 93.3, 85.3, 77.9, 71.2, 65.1, 59.5, 54.4, 49.7, 45.4, 41.5, 37.9, 34.7, 31.7, 29),
+-- T0907 (Palm (coconut/date class) — proxy; mature ≈60.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:907]{index=907}
+('T0907', 7.1, 16.3, 26.5, 37.4, 48.9, 60.9, 55.7, 50.9, 46.5, 42.5, 38.8, 35.5, 32.4, 29.6, 27.1, 24.8, 22.6, 20.7, 18.9),
+-- T0908 (Small fruit (orange/guava class) — proxy; mature ≈48.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:908]{index=908}
+('T0908', 5.7, 13.1, 21.2, 30, 39.2, 48.8, 44.6, 40.8, 37.3, 34, 31.1, 28.4, 26, 23.8, 21.7, 19.8, 18.1, 16.6, 15.1),
+-- T0909 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈111.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:909]{index=909}
+('T0909', 48.7, 111.9, 102.3, 93.5, 85.4, 78.1, 71.4, 65.2, 59.6, 54.5, 49.8, 45.5, 41.6, 38, 34.7, 31.7, 29, 26.5, 24.2),
+-- T0910 (Bamboo (clump/culm proxy) — proxy; mature ≈200.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:910]{index=910}
+('T0910', 87.1, 200.2, 183, 167.2, 152.8, 139.7, 127.7, 116.7, 106.6, 97.4, 89.1, 81.4, 74.4, 68, 62.1, 56.8, 51.9, 47.4, 43.4),
+-- T0911 (Shade urban tree (maple/linden) — proxy; mature ≈67.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:911]{index=911}
+('T0911', 7.8, 18, 29.3, 41.3, 54, 67.2, 61.4, 56.1, 51.3, 46.9, 42.8, 39.2, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.9),
+-- T0912 (Medium tropical (teak-like) — proxy; mature ≈117.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:912]{index=912}
+('T0912', 11.4, 26.1, 42.5, 60, 78.5, 97.7, 117.5, 107.4, 98.1, 89.7, 82, 74.9, 68.5, 62.6, 57.2, 52.3, 47.8, 43.7, 39.9),
+-- T0913 (Slow broadleaf (beech-like) — proxy; mature ≈79.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:913]{index=913}
+('T0913', 6.6, 15.1, 24.6, 34.7, 45.3, 56.4, 67.9, 79.7, 72.8, 66.6, 60.8, 55.6, 50.8, 46.4, 42.4, 38.8, 35.5, 32.4, 29.6),
+-- T0914 (Ornamental small (bottlebrush) — proxy; mature ≈26.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:914]{index=914}
+('T0914', 3.1, 7.1, 11.5, 16.2, 21.2, 26.4, 24.1, 22.1, 20.2, 18.4, 16.8, 15.4, 14.1, 12.9, 11.7, 10.7, 9.8, 9, 8.2),
+-- T0915 (Oil palm / rubber class — proxy; mature ≈83.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:915]{index=915}
+('T0915', 9.7, 22.3, 36.3, 51.3, 67.1, 83.5, 76.3, 69.7, 63.7, 58.3, 53.2, 48.7, 44.5, 40.6, 37.1, 33.9, 31, 28.4, 25.9),
+-- T0916 (Agrofruit (avocado/lychee class) — proxy; mature ≈73.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:916]{index=916}
+('T0916', 32, 73.5, 67.2, 61.4, 56.1, 51.3, 46.9, 42.8, 39.1, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.8, 19.1, 17.4, 15.9),
+-- T0917 (Chestnut/walnut class — proxy; mature ≈88.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:917]{index=917}
+('T0917', 8.5, 19.6, 31.9, 45.1, 58.9, 73.3, 88.2, 80.6, 73.7, 67.3, 61.5, 56.2, 51.4, 47, 42.9, 39.2, 35.9, 32.8, 30),
+-- T0918 (Mangrove/tidal species (low-med) — proxy; mature ≈38.2 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:918]{index=918}
+('T0918', 3.2, 7.2, 11.8, 16.6, 21.7, 27, 32.5, 38.2, 34.9, 31.9, 29.2, 26.7, 24.4, 22.3, 20.3, 18.6, 17, 15.5, 14.2),
+-- T0919 (Shade canopy (rain tree-like) — proxy; mature ≈141.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:919]{index=919}
+('T0919', 13.7, 31.6, 51.3, 72.5, 94.8, 117.9, 141.9, 129.7, 118.5, 108.3, 99, 90.5, 82.7, 75.6, 69.1, 63.1, 57.7, 52.7, 48.2),
+-- T0920 (Urban street tree (elm/ash) — proxy; mature ≈47.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:920]{index=920}
+('T0920', 5.5, 12.6, 20.5, 28.9, 37.8, 47, 43, 39.3, 35.9, 32.8, 30, 27.4, 25, 22.9, 20.9, 19.1, 17.5, 16, 14.6),
+-- T0921 (Poplar-like (fast coppice) — proxy; mature ≈187.1 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:921]{index=921}
+('T0921', 81.4, 187.1, 171, 156.3, 142.8, 130.5, 119.3, 109, 99.6, 91.1, 83.2, 76.1, 69.5, 63.5, 58.1, 53.1, 48.5, 44.3, 40.5),
+-- T0922 (Large tropical hardwood — proxy; mature ≈154.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:922]{index=922}
+('T0922', 15, 34.4, 56, 79, 103.3, 128.6, 154.7, 141.4, 129.2, 118.1, 107.9, 98.6, 90.2, 82.4, 75.3, 68.8, 62.9, 57.5, 52.5),
+-- T0923 (Temperate oak-like hardwood — proxy; mature ≈83.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:923]{index=923}
+('T0923', 8.1, 18.7, 30.4, 42.9, 56, 69.7, 83.9, 76.7, 70.1, 64, 58.5, 53.5, 48.9, 44.7, 40.8, 37.3, 34.1, 31.2, 28.5),
+-- T0924 (Eucalyptus-like plantation — proxy; mature ≈185.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:924]{index=924}
+('T0924', 80.7, 185.3, 169.4, 154.8, 141.5, 129.3, 118.2, 108, 98.7, 90.2, 82.4, 75.3, 68.9, 62.9, 57.5, 52.6, 48, 43.9, 40.1),
+-- T0925 (Conifer slow (pine/cedar) — proxy; mature ≈29.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:925]{index=925}
+('T0925', 2.4, 5.5, 9, 12.7, 16.6, 20.7, 24.9, 29.2, 26.7, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13, 11.9, 10.9),
+-- T0926 (Fruit tree (mango/jackfruit class) — proxy; mature ≈88.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:926]{index=926}
+('T0926', 10.3, 23.7, 38.6, 54.5, 71.3, 88.7, 81.1, 74.1, 67.7, 61.9, 56.6, 51.7, 47.2, 43.2, 39.5, 36.1, 33, 30.1, 27.5),
+-- T0927 (Palm (coconut/date class) — proxy; mature ≈57.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:927]{index=927}
+('T0927', 6.7, 15.5, 25.2, 35.6, 46.5, 57.9, 52.9, 48.4, 44.2, 40.4, 36.9, 33.7, 30.8, 28.2, 25.8, 23.5, 21.5, 19.7, 18),
+-- T0928 (Small fruit (orange/guava class) — proxy; mature ≈50.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:928]{index=928}
+('T0928', 5.9, 13.6, 22.1, 31.2, 40.7, 50.7, 46.3, 42.3, 38.7, 35.4, 32.3, 29.5, 27, 24.7, 22.6, 20.6, 18.8, 17.2, 15.7),
+-- T0929 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈125.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:929]{index=929}
+('T0929', 54.5, 125.2, 114.4, 104.6, 95.6, 87.3, 79.8, 73, 66.7, 60.9, 55.7, 50.9, 46.5, 42.5, 38.9, 35.5, 32.5, 29.7, 27.1),
+-- T0930 (Bamboo (clump/culm proxy) — proxy; mature ≈191.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:930]{index=930}
+('T0930', 83.3, 191.3, 174.8, 159.8, 146, 133.5, 122, 111.5, 101.9, 93.1, 85.1, 77.8, 71.1, 65, 59.4, 54.3, 49.6, 45.3, 41.4),
+-- T0931 (Shade urban tree (maple/linden) — proxy; mature ≈69.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:931]{index=931}
+('T0931', 8.1, 18.7, 30.4, 42.9, 56.1, 69.8, 63.8, 58.3, 53.3, 48.7, 44.5, 40.7, 37.2, 34, 31.1, 28.4, 25.9, 23.7, 21.7),
+-- T0932 (Medium tropical (teak-like) — proxy; mature ≈105.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:932]{index=932}
+('T0932', 10.2, 23.5, 38.2, 53.9, 70.5, 87.7, 105.5, 96.4, 88.1, 80.5, 73.6, 67.3, 61.5, 56.2, 51.4, 46.9, 42.9, 39.2, 35.8),
+-- T0933 (Slow broadleaf (beech-like) — proxy; mature ≈79.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:933]{index=933}
+('T0933', 6.5, 15, 24.3, 34.4, 44.9, 55.9, 67.3, 79, 72.2, 66, 60.3, 55.1, 50.4, 46, 42.1, 38.5, 35.1, 32.1, 29.4),
+-- T0934 (Ornamental small (bottlebrush) — proxy; mature ≈23.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:934]{index=934}
+('T0934', 2.7, 6.3, 10.2, 14.4, 18.8, 23.4, 21.4, 19.5, 17.9, 16.3, 14.9, 13.6, 12.5, 11.4, 10.4, 9.5, 8.7, 7.9, 7.3),
+-- T0935 (Oil palm / rubber class — proxy; mature ≈83.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:935]{index=935}
+('T0935', 9.7, 22.4, 36.4, 51.5, 67.3, 83.7, 76.5, 69.9, 63.9, 58.4, 53.4, 48.8, 44.6, 40.7, 37.2, 34, 31.1, 28.4, 26),
+-- T0936 (Agrofruit (avocado/lychee class) — proxy; mature ≈75.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:936]{index=936}
+('T0936', 32.7, 75.2, 68.7, 62.8, 57.4, 52.5, 47.9, 43.8, 40.1, 36.6, 33.5, 30.6, 27.9, 25.5, 23.3, 21.3, 19.5, 17.8, 16.3),
+-- T0937 (Chestnut/walnut class — proxy; mature ≈86.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:937]{index=937}
+('T0937', 8.3, 19.1, 31.1, 43.9, 57.4, 71.5, 86, 78.6, 71.8, 65.7, 60, 54.8, 50.1, 45.8, 41.9, 38.3, 35, 32, 29.2),
+-- T0938 (Mangrove/tidal species (low-med) — proxy; mature ≈39.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:938]{index=938}
+('T0938', 3.2, 7.5, 12.1, 17.1, 22.4, 27.9, 33.6, 39.4, 36, 32.9, 30.1, 27.5, 25.1, 23, 21, 19.2, 17.5, 16, 14.6),
+-- T0939 (Shade canopy (rain tree-like) — proxy; mature ≈144.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:939]{index=939}
+('T0939', 14, 32.2, 52.3, 73.9, 96.6, 120.3, 144.7, 132.2, 120.9, 110.5, 101, 92.3, 84.3, 77.1, 70.4, 64.4, 58.8, 53.8, 49.1),
+-- T0940 (Urban street tree (elm/ash) — proxy; mature ≈47.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:940]{index=940}
+('T0940', 5.5, 12.7, 20.6, 29.1, 38, 47.3, 43.2, 39.5, 36.1, 33, 30.2, 27.6, 25.2, 23, 21, 19.2, 17.6, 16.1, 14.7),
+-- T0941 (Poplar-like (fast coppice) — proxy; mature ≈193.4 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:941]{index=941}
+('T0941', 84.2, 193.4, 176.8, 161.5, 147.6, 134.9, 123.3, 112.7, 103, 94.1, 86, 78.6, 71.9, 65.7, 60, 54.9, 50.1, 45.8, 41.9),
+-- T0942 (Large tropical hardwood — proxy; mature ≈149.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:942]{index=942}
+('T0942', 14.4, 33.1, 53.9, 76.1, 99.5, 123.8, 149, 136.2, 124.5, 113.7, 104, 95, 86.8, 79.4, 72.5, 66.3, 60.6, 55.4, 50.6),
+-- T0943 (Temperate oak-like hardwood — proxy; mature ≈82.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:943]{index=943}
+('T0943', 8, 18.3, 29.7, 42, 54.9, 68.3, 82.2, 75.1, 68.7, 62.7, 57.3, 52.4, 47.9, 43.8, 40, 36.6, 33.4, 30.5, 27.9),
+-- T0944 (Eucalyptus-like plantation — proxy; mature ≈169.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:944]{index=944}
+('T0944', 73.6, 169, 154.5, 141.2, 129, 117.9, 107.8, 98.5, 90, 82.3, 75.2, 68.7, 62.8, 57.4, 52.5, 47.9, 43.8, 40, 36.6),
+-- T0945 (Conifer slow (pine/cedar) — proxy; mature ≈30.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:945]{index=945}
+('T0945', 2.5, 5.8, 9.4, 13.2, 17.3, 21.5, 25.9, 30.4, 27.8, 25.4, 23.2, 21.2, 19.4, 17.7, 16.2, 14.8, 13.5, 12.4, 11.3),
+-- T0946 (Fruit tree (mango/jackfruit class) — proxy; mature ≈92.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:946]{index=946}
+('T0946', 10.8, 24.7, 40.2, 56.7, 74.2, 92.3, 84.4, 77.1, 70.5, 64.4, 58.9, 53.8, 49.2, 44.9, 41.1, 37.5, 34.3, 31.3, 28.6),
+-- T0947 (Palm (coconut/date class) — proxy; mature ≈62.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:947]{index=947}
+('T0947', 7.3, 16.8, 27.3, 38.5, 50.4, 62.7, 57.3, 52.4, 47.9, 43.7, 40, 36.5, 33.4, 30.5, 27.9, 25.5, 23.3, 21.3, 19.5),
+-- T0948 (Small fruit (orange/guava class) — proxy; mature ≈51.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:948]{index=948}
+('T0948', 6, 13.7, 22.3, 31.5, 41.2, 51.3, 46.9, 42.8, 39.2, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.9, 19.1, 17.4, 15.9),
+-- T0949 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈116.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:949]{index=949}
+('T0949', 50.5, 116.1, 106.1, 97, 88.6, 81, 74, 67.7, 61.8, 56.5, 51.6, 47.2, 43.1, 39.4, 36, 32.9, 30.1, 27.5, 25.1),
+-- T0950 (Bamboo (clump/culm proxy) — proxy; mature ≈191.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:950]{index=950}
+('T0950', 83.5, 191.9, 175.4, 160.3, 146.5, 133.9, 122.4, 111.8, 102.2, 93.4, 85.4, 78, 71.3, 65.2, 59.6, 54.4, 49.7, 45.5, 41.6),
+-- T0951 (Shade urban tree (maple/linden) — proxy; mature ≈68.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:951]{index=951}
+('T0951', 8, 18.3, 29.8, 42, 55, 68.4, 62.5, 57.1, 52.2, 47.7, 43.6, 39.9, 36.4, 33.3, 30.4, 27.8, 25.4, 23.2, 21.2),
+-- T0952 (Medium tropical (teak-like) — proxy; mature ≈115.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:952]{index=952}
+('T0952', 11.2, 25.7, 41.8, 59.1, 77.2, 96.1, 115.6, 105.7, 96.6, 88.2, 80.7, 73.7, 67.4, 61.6, 56.3, 51.4, 47, 43, 39.3),
+-- T0953 (Slow broadleaf (beech-like) — proxy; mature ≈81.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:953]{index=953}
+('T0953', 6.8, 15.5, 25.2, 35.6, 46.6, 58, 69.8, 81.9, 74.9, 68.4, 62.5, 57.1, 52.2, 47.7, 43.6, 39.9, 36.4, 33.3, 30.4),
+-- T0954 (Ornamental small (bottlebrush) — proxy; mature ≈24.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:954]{index=954}
+('T0954', 2.8, 6.5, 10.6, 15, 19.6, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13, 11.9, 10.9, 9.9, 9.1, 8.3, 7.6),
+-- T0955 (Oil palm / rubber class — proxy; mature ≈76.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:955]{index=955}
+('T0955', 8.9, 20.4, 33.2, 46.9, 61.3, 76.3, 69.7, 63.7, 58.2, 53.2, 48.7, 44.5, 40.6, 37.1, 33.9, 31, 28.4, 25.9, 23.7),
+-- T0956 (Agrofruit (avocado/lychee class) — proxy; mature ≈77.6 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:956]{index=956}
+('T0956', 33.8, 77.6, 70.9, 64.8, 59.2, 54.1, 49.5, 45.2, 41.3, 37.8, 34.5, 31.5, 28.8, 26.4, 24.1, 22, 20.1, 18.4, 16.8),
+-- T0957 (Chestnut/walnut class — proxy; mature ≈95.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:957]{index=957}
+('T0957', 9.2, 21.2, 34.5, 48.8, 63.8, 79.4, 95.5, 87.3, 79.8, 72.9, 66.6, 60.9, 55.7, 50.9, 46.5, 42.5, 38.8, 35.5, 32.4),
+-- T0958 (Mangrove/tidal species (low-med) — proxy; mature ≈42.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:958]{index=958}
+('T0958', 3.5, 8, 13.1, 18.5, 24.1, 30, 36.1, 42.4, 38.8, 35.4, 32.4, 29.6, 27, 24.7, 22.6, 20.6, 18.9, 17.2, 15.8),
+-- T0959 (Shade canopy (rain tree-like) — proxy; mature ≈153.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:959]{index=959}
+('T0959', 14.8, 34.1, 55.5, 78.3, 102.4, 127.4, 153.3, 140.1, 128, 117, 107, 97.7, 89.3, 81.6, 74.6, 68.2, 62.3, 57, 52.1),
+-- T0960 (Urban street tree (elm/ash) — proxy; mature ≈48.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:960]{index=960}
+('T0960', 5.6, 12.9, 20.9, 29.6, 38.6, 48.1, 44, 40.2, 36.7, 33.6, 30.7, 28, 25.6, 23.4, 21.4, 19.6, 17.9, 16.3, 14.9),
+-- T0961 (Poplar-like (fast coppice) — proxy; mature ≈200.4 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:961]{index=961}
+('T0961', 87.2, 200.4, 183.2, 167.4, 153, 139.8, 127.8, 116.8, 106.7, 97.5, 89.1, 81.5, 74.5, 68.1, 62.2, 56.8, 52, 47.5, 43.4),
+-- T0962 (Large tropical hardwood — proxy; mature ≈167.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:962]{index=962}
+('T0962', 16.2, 37.3, 60.7, 85.7, 112, 139.4, 167.7, 153.3, 140.1, 128, 117, 106.9, 97.7, 89.3, 81.6, 74.6, 68.2, 62.3, 57),
+-- T0963 (Temperate oak-like hardwood — proxy; mature ≈89.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:963]{index=963}
+('T0963', 8.7, 19.9, 32.3, 45.7, 59.7, 74.3, 89.4, 81.7, 74.7, 68.2, 62.4, 57, 52.1, 47.6, 43.5, 39.8, 36.3, 33.2, 30.4),
+-- T0964 (Eucalyptus-like plantation — proxy; mature ≈172.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:964]{index=964}
+('T0964', 75.2, 172.8, 157.9, 144.3, 131.9, 120.6, 110.2, 100.7, 92, 84.1, 76.9, 70.3, 64.2, 58.7, 53.6, 49, 44.8, 40.9, 37.4),
+-- T0965 (Conifer slow (pine/cedar) — proxy; mature ≈32.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:965]{index=965}
+('T0965', 2.6, 6.1, 9.9, 13.9, 18.2, 22.7, 27.3, 32, 29.2, 26.7, 24.4, 22.3, 20.4, 18.6, 17, 15.6, 14.2, 13, 11.9),
+-- T0966 (Fruit tree (mango/jackfruit class) — proxy; mature ≈98.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:966]{index=966}
+('T0966', 11.5, 26.4, 43, 60.7, 79.3, 98.7, 90.2, 82.4, 75.3, 68.9, 62.9, 57.5, 52.6, 48, 43.9, 40.1, 36.7, 33.5, 30.6),
+-- T0967 (Palm (coconut/date class) — proxy; mature ≈56.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:967]{index=967}
+('T0967', 6.5, 15, 24.4, 34.5, 45.1, 56.1, 51.3, 46.9, 42.8, 39.1, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.8, 19.1, 17.4),
+-- T0968 (Small fruit (orange/guava class) — proxy; mature ≈50.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:968]{index=968}
+('T0968', 5.9, 13.6, 22.1, 31.2, 40.8, 50.8, 46.4, 42.4, 38.8, 35.4, 32.4, 29.6, 27.1, 24.7, 22.6, 20.7, 18.9, 17.3, 15.8),
+-- T0969 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈126.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:969]{index=969}
+('T0969', 55.1, 126.5, 115.6, 105.7, 96.6, 88.3, 80.7, 73.7, 67.4, 61.6, 56.3, 51.4, 47, 43, 39.3, 35.9, 32.8, 30, 27.4),
+-- T0970 (Bamboo (clump/culm proxy) — proxy; mature ≈207.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:970]{index=970}
+('T0970', 90.1, 207, 189.2, 172.9, 158, 144.4, 132, 120.6, 110.2, 100.8, 92.1, 84.2, 76.9, 70.3, 64.2, 58.7, 53.7, 49, 44.8),
+-- T0971 (Shade urban tree (maple/linden) — proxy; mature ≈71.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:971]{index=971}
+('T0971', 8.4, 19.2, 31.3, 44.2, 57.8, 71.9, 65.7, 60.1, 54.9, 50.2, 45.8, 41.9, 38.3, 35, 32, 29.2, 26.7, 24.4, 22.3),
+-- T0972 (Medium tropical (teak-like) — proxy; mature ≈110.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:972]{index=972}
+('T0972', 10.7, 24.6, 40.1, 56.6, 74, 92.1, 110.8, 101.3, 92.5, 84.6, 77.3, 70.6, 64.6, 59, 53.9, 49.3, 45, 41.2, 37.6),
+-- T0973 (Slow broadleaf (beech-like) — proxy; mature ≈77.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:973]{index=973}
+('T0973', 6.4, 14.7, 23.9, 33.7, 44, 54.8, 65.9, 77.4, 70.7, 64.6, 59.1, 54, 49.4, 45.1, 41.2, 37.7, 34.4, 31.5, 28.8),
+-- T0974 (Ornamental small (bottlebrush) — proxy; mature ≈25.1 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:974]{index=974}
+('T0974', 2.9, 6.7, 10.9, 15.4, 20.2, 25.1, 22.9, 21, 19.2, 17.5, 16, 14.6, 13.4, 12.2, 11.2, 10.2, 9.3, 8.5, 7.8),
+-- T0975 (Oil palm / rubber class — proxy; mature ≈82.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:975]{index=975}
+('T0975', 9.6, 22, 35.8, 50.5, 66, 82.2, 75.1, 68.7, 62.7, 57.3, 52.4, 47.9, 43.8, 40, 36.6, 33.4, 30.5, 27.9, 25.5),
+-- T0976 (Agrofruit (avocado/lychee class) — proxy; mature ≈74.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:976]{index=976}
+('T0976', 32.6, 74.9, 68.5, 62.6, 57.2, 52.3, 47.8, 43.6, 39.9, 36.5, 33.3, 30.5, 27.8, 25.4, 23.2, 21.2, 19.4, 17.7, 16.2),
+-- T0977 (Chestnut/walnut class — proxy; mature ≈90.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:977]{index=977}
+('T0977', 8.8, 20.2, 32.8, 46.3, 60.6, 75.4, 90.7, 82.9, 75.8, 69.2, 63.3, 57.8, 52.9, 48.3, 44.1, 40.3, 36.9, 33.7, 30.8),
+-- T0978 (Mangrove/tidal species (low-med) — proxy; mature ≈39.2 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:978]{index=978}
+('T0978', 3.2, 7.4, 12.1, 17.1, 22.3, 27.8, 33.4, 39.2, 35.8, 32.7, 29.9, 27.3, 25, 22.8, 20.9, 19.1, 17.4, 15.9, 14.6),
+-- T0979 (Shade canopy (rain tree-like) — proxy; mature ≈158.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:979]{index=979}
+('T0979', 15.4, 35.3, 57.4, 81.1, 106, 131.9, 158.7, 145, 132.6, 121.1, 110.7, 101.2, 92.5, 84.5, 77.2, 70.6, 64.5, 59, 53.9),
+-- T0980 (Urban street tree (elm/ash) — proxy; mature ≈44.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:980]{index=980}
+('T0980', 5.2, 11.9, 19.4, 27.4, 35.8, 44.5, 40.7, 37.2, 34, 31, 28.4, 25.9, 23.7, 21.7, 19.8, 18.1, 16.5, 15.1, 13.8),
+-- T0981 (Poplar-like (fast coppice) — proxy; mature ≈199.6 kg O2/yr). CONFIDENCE: HIGH. :contentReference[oaicite:981]{index=981}
+('T0981', 86.9, 199.6, 182.4, 166.7, 152.4, 139.3, 127.3, 116.3, 106.3, 97.2, 88.8, 81.2, 74.2, 67.8, 61.9, 56.6, 51.7, 47.3, 43.2),
+-- T0982 (Large tropical hardwood — proxy; mature ≈151.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:982]{index=982}
+('T0982', 14.7, 33.7, 54.9, 77.5, 101.3, 126.1, 151.7, 138.6, 126.7, 115.8, 105.8, 96.7, 88.4, 80.8, 73.8, 67.5, 61.7, 56.4, 51.5),
+-- T0983 (Temperate oak-like hardwood — proxy; mature ≈81.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:983]{index=983}
+('T0983', 7.9, 18.2, 29.6, 41.8, 54.7, 68.1, 81.9, 74.9, 68.4, 62.5, 57.1, 52.2, 47.7, 43.6, 39.9, 36.4, 33.3, 30.4, 27.8),
+-- T0984 (Eucalyptus-like plantation — proxy; mature ≈171.0 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:984]{index=984}
+('T0984', 74.4, 171, 156.3, 142.8, 130.5, 119.3, 109, 99.6, 91.1, 83.2, 76.1, 69.5, 63.5, 58.1, 53.1, 48.5, 44.3, 40.5, 37),
+-- T0985 (Conifer slow (pine/cedar) — proxy; mature ≈28.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:985]{index=985}
+('T0985', 2.3, 5.4, 8.7, 12.3, 16.1, 20, 24.1, 28.3, 25.9, 23.6, 21.6, 19.7, 18, 16.5, 15.1, 13.8, 12.6, 11.5, 10.5),
+-- T0986 (Fruit tree (mango/jackfruit class) — proxy; mature ≈90.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:986]{index=986}
+('T0986', 10.5, 24.2, 39.4, 55.6, 72.7, 90.5, 82.7, 75.6, 69.1, 63.1, 57.7, 52.7, 48.2, 44.1, 40.3, 36.8, 33.6, 30.7, 28.1),
+-- T0987 (Palm (coconut/date class) — proxy; mature ≈57.9 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:987]{index=987}
+('T0987', 6.7, 15.5, 25.2, 35.6, 46.5, 57.9, 52.9, 48.4, 44.2, 40.4, 36.9, 33.7, 30.8, 28.2, 25.8, 23.5, 21.5, 19.7, 18),
+-- T0988 (Small fruit (orange/guava class) — proxy; mature ≈46.8 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:988]{index=988}
+('T0988', 5.5, 12.5, 20.4, 28.8, 37.6, 46.8, 42.8, 39.1, 35.7, 32.7, 29.8, 27.3, 24.9, 22.8, 20.8, 19, 17.4, 15.9, 14.5),
+-- T0989 (Fast agroforestry (acacia/gmelina) — proxy; mature ≈122.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:989]{index=989}
+('T0989', 53.3, 122.4, 111.9, 102.2, 93.4, 85.4, 78, 71.3, 65.2, 59.6, 54.5, 49.8, 45.5, 41.6, 38, 34.7, 31.7, 29, 26.5),
+-- T0990 (Bamboo (clump/culm proxy) — proxy; mature ≈197.4 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:990]{index=990}
+('T0990', 85.9, 197.4, 180.4, 164.9, 150.7, 137.7, 125.9, 115, 105.1, 96.1, 87.8, 80.3, 73.3, 67, 61.3, 56, 51.2, 46.8, 42.7),
+-- T0991 (Shade urban tree (maple/linden) — proxy; mature ≈72.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:991]{index=991}
+('T0991', 8.4, 19.3, 31.5, 44.4, 58.1, 72.3, 66.1, 60.4, 55.2, 50.4, 46.1, 42.1, 38.5, 35.2, 32.2, 29.4, 26.9, 24.6, 22.4),
+-- T0992 (Medium tropical (teak-like) — proxy; mature ≈110.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:992]{index=992}
+('T0992', 10.7, 24.5, 39.8, 56.3, 73.5, 91.5, 110.1, 100.6, 92, 84, 76.8, 70.2, 64.2, 58.6, 53.6, 49, 44.8, 40.9, 37.4),
+-- T0993 (Slow broadleaf (beech-like) — proxy; mature ≈83.2 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:993]{index=993}
+('T0993', 6.9, 15.8, 25.6, 36.2, 47.3, 58.9, 70.9, 83.2, 76, 69.5, 63.5, 58, 53.1, 48.5, 44.3, 40.5, 37, 33.8, 30.9),
+-- T0994 (Ornamental small (bottlebrush) — proxy; mature ≈26.4 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:994]{index=994}
+('T0994', 3.1, 7.1, 11.5, 16.2, 21.2, 26.4, 24.1, 22.1, 20.2, 18.4, 16.8, 15.4, 14.1, 12.9, 11.7, 10.7, 9.8, 9, 8.2),
+-- T0995 (Oil palm / rubber class — proxy; mature ≈83.1 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:995]{index=995}
+('T0995', 9.7, 22.2, 36.2, 51.1, 66.8, 83.1, 75.9, 69.4, 63.4, 58, 53, 48.4, 44.3, 40.4, 37, 33.8, 30.9, 28.2, 25.8),
+-- T0996 (Agrofruit (avocado/lychee class) — proxy; mature ≈75.7 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:996]{index=996}
+('T0996', 33, 75.7, 69.2, 63.2, 57.8, 52.8, 48.3, 44.1, 40.3, 36.8, 33.7, 30.8, 28.1, 25.7, 23.5, 21.5, 19.6, 17.9, 16.4),
+-- T0997 (Chestnut/walnut class — proxy; mature ≈94.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:997]{index=997}
+('T0997', 9.1, 21, 34.1, 48.2, 63, 78.4, 94.3, 86.2, 78.8, 72, 65.8, 60.1, 55, 50.2, 45.9, 42, 38.3, 35, 32),
+-- T0998 (Mangrove/tidal species (low-med) — proxy; mature ≈41.8 kg O2/yr). CONFIDENCE: LOW. :contentReference[oaicite:998]{index=998}
+('T0998', 3.4, 7.9, 12.9, 18.2, 23.8, 29.6, 35.6, 41.8, 38.2, 34.9, 31.9, 29.2, 26.7, 24.4, 22.3, 20.3, 18.6, 17, 15.5),
+-- T0999 (Shade canopy (rain tree-like) — proxy; mature ≈140.5 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:999]{index=999}
+('T0999', 13.6, 31.2, 50.8, 71.8, 93.8, 116.8, 140.5, 128.4, 117.4, 107.3, 98, 89.6, 81.9, 74.8, 68.4, 62.5, 57.1, 52.2, 47.7),
+-- T1000 (Urban street tree (elm/ash) — proxy; mature ≈42.3 kg O2/yr). CONFIDENCE: MEDIUM. :contentReference[oaicite:1000]{index=1000}
+('T1000', 4.9, 11.3, 18.4, 26, 34, 42.3, 38.7, 35.3, 32.3, 29.5, 27, 24.7, 22.5, 20.6, 18.8, 17.2, 15.7, 14.4, 13.1);
